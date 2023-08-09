@@ -43,6 +43,7 @@
         <li class="layout-row justify-content-between py-12 font-weight-bold">
           <span>Total</span>
           <span data-testid="cart-total">${{ cart.totalPrice }}</span>
+          
         </li>
       </ul>
 
@@ -63,6 +64,12 @@ export default {
     }
   },
   methods : {
+    addToCart() {
+      this.$emit("add-to-cart", this.product);
+      this.product.addedToCart = true;
+    },
+    removeFromCart(item) {
+      this.$emit("remove-from-cart", item); }
 
   }
 }

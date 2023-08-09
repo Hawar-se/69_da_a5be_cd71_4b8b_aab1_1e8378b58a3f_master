@@ -11,17 +11,22 @@
           <p class="ma-0 mt-8 text-center">${{ product.price }}</p>
         </div>
         <div class="card-actions justify-content-center pa-4">
-          <button class="x-small outlined" data-testid="btn-item-add">
-            Add To Cart
-          </button>
-
-        <button
+    
+          <button
             v-if="!product.addedToCart"
             class="x-small outlined"
             data-testid="btn-item-add"
             @click="addToCart(product)"
           >
             Add To Cart
+          </button>
+          <button
+            v-else
+            class="x-small danger"
+            data-testid="btn-item-remove"
+            @click="removeFromCart(product)"
+          >
+            Remove
           </button>
         </div>
       </div>
@@ -31,52 +36,26 @@
 </template>
 
 <script>
+
+
 export default {
   name: "ProductList",
   props: {
     products: Array
   },
+
+
   methods: {
     addToCart(product) {
-      product.addedToCart = true; // Set the addedToCart flag
-      // You can perform any other actions like adding the item to the cart array
+      product.addedToCart = true; 
+      this.$emit("add-to-cart", product); 
     },
     removeFromCart(product) {
-      product.addedToCart = false; // Reset the addedToCart flag
-      // You can perform any other actions like removing the item from the cart array
-    }
+      product.addedToCart = false; 
+      this.$emit("remove-from-cart", product); 
   }
+}
 };
-</script>
-
-<template>
-  <div>
-    <product-list :products="products" />
-  </div>
-</template>
-
-<script>
-
-
-
-export default {
-  components: {
-    ProductList
-  },
-  data() {
-    return {
-      products: [
-        { id: 1, name: "Item 1", price: 10, addedToCart: false },
-        { id: 2, name: "Item 2", price: 20, addedToCart: false },
-        // Add more products
-      ]
-    };
-  }
-};
-
-
-
-
 
 
 

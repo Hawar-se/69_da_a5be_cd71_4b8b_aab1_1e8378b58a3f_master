@@ -1,6 +1,6 @@
 <template>
   <div class="layout-row">
-    <ProductList class="flex-70" :products="products" />
+    <ProductList class="flex-70" :products="products" @remove-from-cart="removeFromCart" @add-to-cart="addToCart" />
     <Cart class="flex-30" :cart="cart" />
   </div>
 </template>
@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     addToCart(product) {
+      
       const index = this.products.findIndex(p => p.id === product.id);
       this.products[index].cartQuantity = 1;
       this.cart.items.push({
@@ -41,14 +42,22 @@ export default {
         item: this.products[index].heading,
         price: this.products[index].price,
         quantity: 1
-      });
+        
+      });      this.calculateCartTotal();
+
     },
     removeFromCart(product) {
       const index = this.products.findIndex(p => p.id === product.id);
       this.products[index].cartQuantity = 0;
       const cartIndex = this.cart.items.findIndex(c => c.id === product.id);
-      this.cart.items.splice(cartIndex, 1);
+      this.cart.items.splice(cartIndex, 1);    
+       this.calculateCartTotal();
+
     },
+    calculateCartTotal() {
+  this.cart.totalPrice = this.cart.items.reduce((total, item) => total + item.price, 0);
+}
+
   }
 }
 export const PRODUCTS = [
