@@ -56,6 +56,9 @@ export default {
     },
     calculateCartTotal() {
   this.cart.totalPrice = this.cart.items.reduce((total, item) => total + item.price, 0);
+  const discountPercentage = this.coupon;
+  this.cart.discount = (this.cart.subTotal * discountPercentage) / 100;
+  this.cart.totalPrice = this.cart.subTotal - this.cart.discount;
 }
 
   }
